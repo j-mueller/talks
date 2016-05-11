@@ -8,21 +8,25 @@ import qualified Data.Text as T
 import Prelude hiding (div)
 
 import VirtualHom.Element
-import VirtualHom.Html hiding (content, main)
+import VirtualHom.Html (h1, p, div)
 import VirtualHom.Rendering(renderingOptions, onElementChanged)
-import VirtualHom.Bootstrap(container, row, btnDefault)
 import VirtualHom.View(View, renderUI)
 
 import Slides
 import MathJax
+import SemanticUI(menu, container, headerItem)
 
 theUI :: View Identity ()
 theUI () = [container & children .~ [
-    row & children .~ [
+    menu & children .~ [
+      headerItem & content .~ "Accepting a Decision in ASPIC+"
+    ],
+    div & attributes . at "class" ?~ "main-div" & children .~[
       h1 "Hello, world",
       p & content .~ "I am a paragraph!",
       p & content .~ "With math",
-      p & content .~ "$(a \\wedge b) \\Rightarrow (a \\vee b)$"]]]
+      p & content .~ "$(a \\wedge b) \\Rightarrow (a \\vee b)$"
+  ]]]
 
 main :: IO ()
 main = do
