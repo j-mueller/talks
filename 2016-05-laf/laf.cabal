@@ -1,0 +1,34 @@
+name:                laf
+version:             0.1.0.0
+synopsis:            Slides/demo for London Argumentation Forum (LAF) 2016
+description:         Please see README.md
+homepage:            http://github.com/j-mueller/talks
+license:             MIT
+license-file:        LICENSE
+author:              Jann Müller
+maintainer:          j.mueller.11@ucl.ac.uk
+copyright:           Copyright: (c) 2016 Jann Müller
+category:            Web
+build-type:          Simple
+cabal-version:       >=1.10
+
+homepage: https://j-mueller.github.io/talks/2016-5-LAF
+
+executable laf
+  hs-source-dirs:    src
+  main-is:           Main.hs
+  ghc-options:       -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >= 4.7 && < 5      
+    , containers
+    , ghcjs-base >= 0.2.0.0
+    , ghcjs-prim
+    , virtual-hom
+    , aeson
+    , lens
+    , mtl
+    , text
+    , time
+    , unordered-containers 
+  default-language: Haskell2010
+
