@@ -17,6 +17,7 @@ homepage: https://j-mueller.github.io/talks/2016-5-LAF
 executable laf
   hs-source-dirs:    src
   main-is:           Main.hs
+  other-modules:     Slides, MathJax
   ghc-options:       -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >= 4.7 && < 5      
