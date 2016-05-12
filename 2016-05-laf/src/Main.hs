@@ -13,23 +13,19 @@ import VirtualHom.Rendering(renderingOptions, onElementChanged)
 import VirtualHom.View(View, renderUI)
 
 import Slides
-import MathJax
-import SemanticUI(menu, container, headerItem)
-
-theUI :: View Identity ()
-theUI () = [container & children .~ [
-    menu & children .~ [
-      headerItem & content .~ "Accepting a Decision in ASPIC+"
-    ],
-    div & attributes . at "class" ?~ "main-div" & children .~[
-      h1 "Hello, world",
-      p & content .~ "I am a paragraph!",
-      p & content .~ "With math",
-      p & content .~ "$(a \\wedge b) \\Rightarrow (a \\vee b)$"
-  ]]]
 
 main :: IO ()
-main = do
-  let options = onElementChanged updateMathJax $ renderingOptions "virtual-hom"
-  let interp = return . runIdentity
-  renderUI options theUI interp ()
+main = renderSlideShow "virtual-hom" myTalk
+
+myTalk :: SlideShow
+myTalk = slideDeck dt [
+  slide "Motivation" "" $ const [],
+  slide "Deactivating Rules" "" $ const [],
+  slide "Enforcing Arguments" "" $ const [],
+  slide "Conclusion" "" $ const []
+  ] where
+    dt = slideShowData &
+      title .~ "Accepting a Decision with Aspic+" &
+      author .~ "Jann Müller" &
+      date .~ "19 May 2016"
+      
