@@ -12,7 +12,7 @@ category:            Web
 build-type:          Simple
 cabal-version:       >=1.10
 
-homepage: https://j-mueller.github.io/talks/2016-5-laf/index.html
+homepage: https://j-mueller.github.io/talks/2016-05-laf/index.html
 
 executable laf
   hs-source-dirs:    src
