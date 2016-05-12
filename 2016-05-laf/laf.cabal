@@ -32,4 +32,3 @@ executable laf
     , time
     , unordered-containers 
   default-language: Haskell2010
-
