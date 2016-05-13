@@ -4,6 +4,8 @@
 module Slides where
   
 import Control.Lens hiding (children)
+import Data.Foldable (foldl')
+import Data.Maybe (listToMaybe)
 import qualified Data.Text as T
 import VirtualHom.Element
 import VirtualHom.View(View, renderUI, specialise)
@@ -44,16 +46,20 @@ data SlideShow = SlideShow {
   _metadata :: SlideShowData,
   _current :: Slide,
   _previous :: Maybe SlideShow,
-  _next :: Maybe SlideShow,
-  _groups :: [(T.Text, SlideShow)]
+  _next :: Maybe SlideShow
 }
 
 makeLenses ''SlideShow
   
 slideDeck :: SlideShowData -> [Slide] -> SlideShow
-slideDeck dt slides = result where
+slideDeck dt slides = slideDeck' dt [] slides firstSlide where
   firstSlide = slide "" "" (const [div & children .~ [h1 $ dt^.title, h2 $ dt^.subtitle, h4 $ dt^.author, h4 $ dt^.date]])
-  result = SlideShow dt firstSlide Nothing Nothing []
+
+slideDeck' :: SlideShowData -> [Slide] -> [Slide] -> Slide -> SlideShow
+slideDeck' dt left right cur = SlideShow dt cur pr nxt where
+  pr  = fmap (sd (tail left) (cur:right))  $ listToMaybe left
+  nxt = fmap (sd (cur:left)  (tail right)) $ listToMaybe right
+  sd = slideDeck' dt
 
 -- | Render a slide show in a given div
 renderSlideShow :: T.Text -> SlideShow -> IO ()
@@ -63,7 +69,9 @@ renderSlideShow target shw = do
   renderUI options showSlide interp shw
   
 showSlide :: View Identity SlideShow
-showSlide ss = [container & children .~ [
+showSlide ss = [container & 
+  callbacks . keydown ?~ onKeyDown &
+  children .~ [
     menu & children .~ [
       container & children .~ [
         headerItem & content .~ ss^.metadata.title
@@ -75,4 +83,15 @@ showSlide ss = [container & children .~ [
         h3 $ ss^.current.subsection,
         div & children .~ (specialise united (ss^.current.contents) ss)
       ]]
-    ]]
+    ] ++ (maybe [] leftBtn $ ss^.previous) ++ (maybe [] rightBtn $ ss^.next)
+  ] where
+      moveLeft s  = return $ maybe s id (s^.previous)
+      moveRight s = return $ maybe s id (s^.next)
+      leftBtn sls = [button & 
+        content .~ "<" &
+        callbacks . click ?~ (const moveLeft)]
+      rightBtn sls = [button & 
+        content .~ ">" &
+        callbacks . click ?~ (const moveRight)]
+      onKeyDown args = moveRight
+    

@@ -6,7 +6,7 @@ packages:
 - '.'
 - location:
     git: https://github.com/j-mueller/virtual-hom
-    commit: 800aca3bb54078b8237a2a3bfe004922cd3a0761
+    commit: 2aed56035398d21064a6e48629c5ac60697a2739
 
 # Extra package databases containing global packages
 extra-package-dbs: []
