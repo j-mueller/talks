@@ -19,7 +19,8 @@ main = renderSlideShow "virtual-hom" myTalk
 
 myTalk :: SlideShow
 myTalk = slideDeck dt [
-  slide "Motivation" "" $ const [],
+  motivation1,
+  motivation2,
   slide "Deactivating Rules" "" $ const [],
   slide "Enforcing Arguments" "" $ const [],
   slide "Conclusion" "" $ const []
@@ -29,3 +30,9 @@ myTalk = slideDeck dt [
       author .~ "Jann Müller" &
       date .~ "19 May 2016"
       
+motivation1 = slide "Motivation" "Decision Making" $ const [
+    p & content .~ "Assumption: Options in a decision correspond to preferred extensions",
+    p & content .~ "$\\Sigma_{\\mathsf{pr}}(G)$"]
+    
+motivation2 = slide "Motivation" "Decision Acceptance" $ const [    
+    p & content .~ "Once an option has been chosen we want to elevate its arguments to be sceptically acceptable"]
