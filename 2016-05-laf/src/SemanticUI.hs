@@ -3,8 +3,16 @@
 -- cf. http://semantic-ui.com/
 --  
 module SemanticUI(
+    bullets,
     buttons,
     button,
+    columnFour,
+    columnEight,
+    columnSix,
+    columnTen,
+    columnTwelve,
+    grid,
+    list,
     menu,
     container,
     headerItem,
@@ -34,3 +42,21 @@ container = div & attributes . at "class" ?~ "ui container"
 buttons = div & attributes . at "class" ?~ "ui buttons"
 
 button = H.button & attributes . at "class" ?~ "ui button"
+
+list theChildren = ul 
+    & attributes . at "class" ?~ "ui list"
+    & children .~ (fmap (\c -> li & children .~ [c])) theChildren 
+    
+bullets = list . fmap (\b -> p & content .~ b)
+
+grid = div & attributes . at "class" ?~ "ui grid"
+
+columnFour = div & attributes . at "class" ?~ "four wide column" 
+
+columnSix = div & attributes . at "class" ?~ "six wide column" 
+
+columnEight = div & attributes . at "class" ?~ "eight wide column"
+
+columnTen = div & attributes . at "class" ?~ "ten wide column"
+
+columnTwelve = div & attributes . at "class" ?~ "twelve wide column"

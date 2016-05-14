@@ -70,28 +70,29 @@ renderSlideShow target shw = do
   
 showSlide :: View Identity SlideShow
 showSlide ss = [container & 
-  callbacks . keydown ?~ onKeyDown &
   children .~ [
     menu & children .~ [
       container & children .~ [
         headerItem & content .~ ss^.metadata.title
-      ]
+      ],
+      rightMenu & children .~ buttons
     ],
     div & attributes . at "class" ?~ "main-div" & children .~ [
-      div & attributes . at "class" ?~ "main-div" & children .~[
+      div & children .~[
         h2 $ ss^.current.section,
         h3 $ ss^.current.subsection,
         div & children .~ (specialise united (ss^.current.contents) ss)
       ]]
-    ] ++ (maybe [] leftBtn $ ss^.previous) ++ (maybe [] rightBtn $ ss^.next)
+    ]
   ] where
+      buttons = (maybe [] leftBtn $ ss^.previous) ++ (maybe [] rightBtn $ ss^.next)
       moveLeft s  = return $ maybe s id (s^.previous)
       moveRight s = return $ maybe s id (s^.next)
-      leftBtn sls = [button & 
+      leftBtn sls = [item & children .~ [button & 
         content .~ "<" &
-        callbacks . click ?~ (const moveLeft)]
-      rightBtn sls = [button & 
+        callbacks . click ?~ (const moveLeft)]]
+      rightBtn sls = [item & children .~ [button & 
         content .~ ">" &
-        callbacks . click ?~ (const moveRight)]
+        callbacks . click ?~ (const moveRight)]]
       onKeyDown args = moveRight
     
