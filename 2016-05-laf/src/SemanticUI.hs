@@ -11,6 +11,7 @@ module SemanticUI(
     columnSix,
     columnTen,
     columnTwelve,
+    disabledButton,
     grid,
     list,
     menu,
@@ -42,6 +43,8 @@ container = div & attributes . at "class" ?~ "ui container"
 buttons = div & attributes . at "class" ?~ "ui buttons"
 
 button = H.button & attributes . at "class" ?~ "ui button"
+
+disabledButton = H.button & attributes . at "class" ?~ "ui disabled button" 
 
 list theChildren = ul 
     & attributes . at "class" ?~ "ui list"

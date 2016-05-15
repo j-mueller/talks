@@ -85,12 +85,14 @@ showSlide ss = [container &
       ]]
     ]
   ] where
-      buttons = (maybe [] leftBtn $ ss^.previous) ++ (maybe [] rightBtn $ ss^.next)
+      buttons = (maybe leftDisabled leftBtn $ ss^.previous) ++ (maybe rightDisabled rightBtn $ ss^.next)
       moveLeft s  = return $ maybe s id (s^.previous)
       moveRight s = return $ maybe s id (s^.next)
+      leftDisabled = [item & children .~ [disabledButton & content .~ "<"]]
       leftBtn sls = [item & children .~ [button & 
         content .~ "<" &
         callbacks . click ?~ (const moveLeft)]]
+      rightDisabled = [item & children .~ [disabledButton & content .~ ">"]]  
       rightBtn sls = [item & children .~ [button & 
         content .~ ">" &
         callbacks . click ?~ (const moveRight)]]
